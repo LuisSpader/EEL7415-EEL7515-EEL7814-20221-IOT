@@ -1,0 +1,30 @@
+
+  // Efeitos Sonoros:
+  digitalWrite(Buzzer, HIGH);
+  delay(160);
+  digitalWrite(Buzzer, LOW);
+  delay(160);
+  digitalWrite(Buzzer, HIGH);
+  delay(100);
+  digitalWrite(Buzzer, LOW);
+  delay(100);
+  digitalWrite(Buzzer, HIGH);
+  delay(100);
+  digitalWrite(Buzzer, LOW);
+  delay(100);
+  digitalWrite(Buzzer, HIGH);
+  delay(100);
+  digitalWrite(Buzzer, LOW);
+  delay(160);
+  digitalWrite(Buzzer, HIGH);
+  delay(160);
+  digitalWrite(Buzzer, LOW);
+  delay(400);
+  digitalWrite(Buzzer, HIGH);
+  delay(160);
+  digitalWrite(Buzzer, LOW);
+  delay(160);
+  digitalWrite(Buzzer, HIGH);
+  delay(160);
+  digitalWrite(Buzzer, LOW);
+  delay(10000);

@@ -1,0 +1,38 @@
+// --------------------------------------- FUNÇÕES DO DEEP SLEEP ---------------------------------------
+
+void delaySleep (int timer){
+
+  // -------------------  ENTRAR EM SLEEP  -------------------
+  // Desativando o Analog to Digital Converter (ADC):
+  ADCSRA &= ~(1 << 7);
+  // Desabilitando as funções da biblioteca AVR/power.h:
+  #define power_adc_disable();
+  #define power_usb_disable();
+  #define power_usi_disable();
+  #define power_usart0_disable();
+  #define power_spi_disable();
+  #define power_timer1_disable();
+  #define power_timer2_disable();
+  for (int i=0; i<timer; i++){
+    //  Inicia a função Sleep por 8s o BOD (Brown Out Detector) desligado:
+    MCUCR |= (3 << 5); // Seta tanto BODS e BODSE ao mesmo tempo
+    MCUCR = (MCUCR & ~(1 << 5)) | (1 << 6); // Então seta o bit BODS e limpa o bit BODSE ao mesmo tempo
+    __asm__  __volatile__("sleep"); // Assembly inline para iniciar o sleep
+  }
+  // -------------------  SAIR DO SLEEP  -------------------
+  // Ativando o Analog to Digital Converter (ADC):
+  ADCSRA &= (1 << 7);
+  #define power_adc_enable();
+  // Reabilitando as funções da biblioteca PPR:
+  #define power_usb_enable();
+  #define power_usi_enable();
+  #define power_usart0_enable();
+  #define power_usart1_enable();
+  #define power_spi_enable();
+  #define power_timer1_enable();
+  #define power_timer2_enable();
+}
+
+ISR (WDT_vect){
+  // TRATADOR DE INTERRUPÇÕES
+}

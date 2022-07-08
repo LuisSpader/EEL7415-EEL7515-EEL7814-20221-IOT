@@ -83,7 +83,8 @@ void loop(){
     // Envia os dados pelo módulo NRF24L01:
     radio.read(&teste, sizeof(teste));
     //radio.read(&teste, sizeof(teste));
-    //radio.read(&teste, sizeof(teste));
+    //radio.read(&teste, sizeof(teste));//address through which two modules communicate.
+
     //radio.read(&teste, sizeof(teste));
     //radio.read(&teste, sizeof(teste));
     Serial.println("Dados coletados e enviados ao thingspeak!");
@@ -97,6 +98,7 @@ void loop(){
     Serial.println(teste);
     Serial.println("regulador");
     Serial.println(teste);
+    
     if (client.connect(server, 80)) { // "184.106.153.149" or api.thingspeak.com
       String postStr = apiKey;
       postStr += "&field1=";

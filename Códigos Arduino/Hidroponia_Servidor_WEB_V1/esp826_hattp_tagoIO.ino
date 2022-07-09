@@ -14,7 +14,7 @@ DallasTemperature sensors(&oneWire);
  
 float temp = 0.0;
  
-String apiKey = "COPIE_O_TOKEN_AQUI"; //o token vai aqui
+String apiKey = "0dcdb8e3-2d69-403d-ab51-0e52aa4ec860"; //o token vai aqui
 const char* server = "api.tago.io";
  
  
@@ -38,7 +38,7 @@ void envia_dados(void){
  
     String postStr = "";
  
-    String postData = "variable=temp&value="+String(temp)+"\n";
+    String postData = "variable=temp&value="+String(temp)+"\n"; //enviando
  
     postStr = "POST /data HTTP/1.1\n";
     postStr += "Host: api.tago.io\n";

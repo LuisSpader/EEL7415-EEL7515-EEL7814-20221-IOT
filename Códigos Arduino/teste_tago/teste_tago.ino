@@ -22,7 +22,7 @@ int   regulador = 8;
 char  teste[32] = {0};
 // ------------- Outras Configurações -------------
 String token = "ee0c54f5-3ccc-4b80-9901-52ed139d36ca"; //o token vai aqui
-const char* ssid = "Thome";
+const char* ssid = "Poco";
 const char* password = "12345678";
 WiFiClient client;
 char server[] = "api.tago.io";
@@ -79,6 +79,7 @@ void loop(){
   
   // Adiciona as variáveis em uma string:
   postData = String("{\"variable\":\"temperature\", \"value\":") + String(temperatura) + String(",\"unit\":\"C\"}");
+  postData = String("{\"variable\":\"teste\", \"value\":") + String(123) + String(",\"unit\":\"C\"}");
 
   if (client.connect(server,80)) {                      // we will use non-secured connnection (HTTP) for tests
   Serial.println("connected to server");

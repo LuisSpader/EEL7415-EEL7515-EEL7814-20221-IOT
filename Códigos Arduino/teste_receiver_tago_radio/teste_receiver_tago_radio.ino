@@ -37,8 +37,7 @@ RF24 radio(D9, D10);  // CE, CSN
 // Enderelo do canal de comunicação:
 const byte address[6] = "00001";
 // pacote para transmissão de dados:
-float pacote[2] = {0};
-
+float pacote[3] = {0};
 
 // --------------------------------------- INICIO SETUP ---------------------------------------
 
@@ -86,13 +85,16 @@ void loop(){
     radio.read(&pacote, sizeof(pacote));
     umidade_ar = pacote[0];
     temperatura = pacote[1];
+    chuva = pacote[2];
     Serial.println(pacote[0]);
     Serial.println(pacote[1]);
+    Serial.println(pacote[2]);
 
     // Adiciona as variáveis em uma string:
     postData  = String("["); // abrindo array de dicionários
     postData += String("{\"variable\":\"temperatura\", \"value\":") + String(temperatura) + String(",\"unit\":\"C\"},");
-    postData += String("{\"variable\":\"humidade\", \"value\":") + String(umidade_ar) + String(",\"unit\":\"%\"}");
+    postData += String("{\"variable\":\"humidade\", \"value\":") + String(umidade_ar) + String(",\"unit\":\"%\"},");
+    postData += String("{\"variable\":\"chuva\", \"value\":") + String(chuva) + String(",\"unit\":\"Leitura\"}");
     postData += String("]"); // fechando array de dicionários
     
     if (client.connect(server,80)) {                      // we will use non-secured connnection (HTTP) for tests

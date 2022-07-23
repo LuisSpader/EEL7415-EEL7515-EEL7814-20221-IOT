@@ -32,6 +32,12 @@ RF24 radio(pin_CE, pin_CSN);
 const byte address[6] = "00001";
 
 
+// --------------- RÁDIO ---------------
+//create an RF24 object
+RF24 radio(D9, D10);  // CE, CSN
+// pacote para transmissão de dados:
+float pacote[2] = {0};
+
 
 // --------------------------------------- INICIO SETUP ---------------------------------------
 
@@ -75,26 +81,41 @@ void loop(){
   // Cria a string que vai ser enviada ao tago:
   String postStr = "";
   String postData = "";
-  String token_string = String("Device-Token: ")+ String(token);
-  
-  // Adiciona as variáveis em uma string:
-  postData = String("{\"variable\":\"temperature\", \"value\":") + String(temperatura) + String(",\"unit\":\"C\"}");
+  String token_string = String("Device-Token: ")+ String(toketemperaturen);
+    
+    //Read the data if available in buffer
+  if (radio.available())
+  {
+    // LENDO VARIÁVEIS DO RÁDIO SALVAS NO BUFFER 
+    radio.read(&pacote, sizeof(pacote));
+    Serial.println(pacote[0]);
+    Serial.println(pacote[1]);
 
-  if (client.connect(server,80)) {                      // we will use non-secured connnection (HTTP) for tests
-  Serial.println("connected to server");
-  // Make a HTTP request:
-  client.println("POST /data? HTTP/1.1");
-  client.println("Host: api.tago.io");
-  client.println("_ssl: false");                        // for non-secured connection, use this option "_ssl: false"
-  client.println(token_string);
-  client.println("Content-Type: application/json");
-  client.print("Content-Length: ");
-  client.println(postData.length());
-  client.println();
-  client.println(postData);
-  }
-  else {
-    // if you couldn't make a connection:
-    Serial.println("connection failed");
+    // Adiciona as variáveis em uma string:
+    postData = String("{"); // abrindo dicionário
+    
+    postData += ("\"variable\":\"variavel_1\", \"value\":") + String(pacote[0]) + String(",\"unit\":\"C\""); // variável 1
+    
+    postData += ("\"variable\":\"variavel_2\", \"value\":") + String(pacote[1]) + String(",\"unit\":\"C\""); // variável 1
+
+    postData += String("}"); // fechando dicionário
+
+    if (client.connect(server,80)) {                      // we will use non-secured connnection (HTTP) for tests
+    Serial.println("connected to server");
+    // Make a HTTP request:
+    client.println("POST /data? HTTP/1.1");
+    client.println("Host: api.tago.io");
+    client.println("_ssl: false");                        // for non-secured connection, use this option "_ssl: false"
+    client.println(token_string);
+    client.println("Content-Type: application/json");
+    client.print("Content-Length: ");
+    client.println(postData.length());
+    client.println();
+    client.println(postData);
+    }
+    else {
+      // if you couldn't make a connection:
+      Serial.println("connection failed");
+    }
   }
 }
